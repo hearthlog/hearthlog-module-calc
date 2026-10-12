@@ -1,0 +1,41 @@
+{
+  "name": "@hearthlog/module-calc",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    "./hearthlog.module.json": "./hearthlog.module.json",
+    "./pages/*.js": "./src/pages/*.ts",
+    "./pages/*.svelte": "./src/pages/*.svelte"
+  },
+  "dependencies": {
+    "date-fns": "^4.4.0"
+  },
+  "peerDependencies": {
+    "@hearthlog/czech": ">=0.1.0 <0.2.0",
+    "@hearthlog/sdk": ">=0.1.0 <0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hearthlog/hearthlog-module-calc.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "src",
+    "hearthlog.module.json",
+    "!**/*.test.ts"
+  ],
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "test": "hearthlog check-module"
+  },
+  "devDependencies": {
+    "@hearthlog/czech": ">=0.1.0 <0.2.0",
+    "@hearthlog/sdk": ">=0.1.0 <0.2.0",
+    "@hearthlog/tooling": ">=0.1.0 <0.2.0",
+    "vitest": "^4.1.11"
+  }
+}
