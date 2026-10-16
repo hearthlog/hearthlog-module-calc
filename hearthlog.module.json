@@ -2,8 +2,10 @@
   "manifestVersion": 1,
   "id": "org.stor.calc",
   "package": "@hearthlog/module-calc",
-  "version": "1.0.0",
-  "compatibility": { "moduleApi": 1 },
+  "version": "1.0.1",
+  "compatibility": {
+    "moduleApi": 1
+  },
   "features": [
     {
       "id": "calc",
@@ -15,13 +17,28 @@
       "icon": "calculator-variant-outline",
       "navOrder": 30,
       "children": [
-        { "id": "income", "label": "Income", "href": "/calc" },
-        { "id": "dates", "label": "Dates", "href": "/calc/dates" }
+        {
+          "id": "income",
+          "label": "Income",
+          "href": "/calc"
+        },
+        {
+          "id": "dates",
+          "label": "Dates",
+          "href": "/calc/dates"
+        }
       ]
     }
   ],
   "routes": [
-    { "path": "/calc", "page": "./src/pages/income.svelte", "load": "./src/pages/income.ts" },
-    { "path": "/calc/dates", "page": "./src/pages/dates.svelte" }
+    {
+      "path": "/calc",
+      "page": "./src/pages/income.svelte",
+      "load": "./src/pages/income.ts"
+    },
+    {
+      "path": "/calc/dates",
+      "page": "./src/pages/dates.svelte"
+    }
   ]
 }
