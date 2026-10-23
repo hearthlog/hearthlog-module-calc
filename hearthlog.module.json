@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "org.stor.calc",
   "package": "@hearthlog/module-calc",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "compatibility": {
     "moduleApi": 1
   },
