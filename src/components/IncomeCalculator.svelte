@@ -33,6 +33,15 @@
         draft.flush();
     }
 
+    const rateOptions = $derived(
+        [-1000, -500, 0, 500, 1000]
+            .map((step) => draft.values.mdRate + step)
+            .filter((value) => value > 0),
+    );
+    function useRate(value: number): void {
+        draft.values.mdRate = value;
+        draft.flush();
+    }
     const result = $derived(calculateIncome(draft.values));
     const scale = $derived(period === "year" ? 12 : 1);
     const shareColors: Record<IncomeShareId, string> = {
@@ -79,6 +88,11 @@
                     <Input id="mdRate" name="mdRate" type="number" inputmode="decimal" min="0" step="100" class="pr-12 tabular-nums" bind:value={draft.values.mdRate} oninput={() => draft.changed()} onblur={() => draft.flush()} />
                     <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-[var(--stor-muted-text)]">Kč</span>
                 </div>
+                <div class="stor-rate-chips" role="group" aria-label="Day rate presets">
+                    {#each rateOptions as option (option)}
+                        <button type="button" class="stor-rate-chip" aria-pressed={draft.values.mdRate === option} onclick={() => useRate(option)}>{formatNumber(option)}</button>
+                    {/each}
+                </div>
             </Field>
         </fieldset>
 
@@ -122,7 +136,8 @@
             </div>
         </div>
 
-        <div class="mt-6 flex h-3 gap-0.5 overflow-hidden rounded-full bg-[var(--stor-surface-muted)]" role="img" aria-label={`Revenue split: ${result.shares.map((item) => `${item.label} ${percent(item.share)}`).join(", ")}`}>
+        <p class="mt-5 text-sm text-[var(--stor-muted-text)]">You keep <b class="font-semibold text-[var(--stor-ink)]"><DataValue>{formatNumber(result.takeHome / (result.monthlyRevenue || 1) * 100, 1)}</DataValue> Kč</b> of every 100 Kč invoiced.</p>
+        <div class="mt-3 flex h-3 gap-0.5 overflow-hidden rounded-full bg-[var(--stor-surface-muted)]" role="img" aria-label={`Revenue split: ${result.shares.map((item) => `${item.label} ${percent(item.share)}`).join(", ")}`}>
             {#each result.shares as item (item.id)}
                 {#if item.share > 0}<div class="h-full first:rounded-l-full last:rounded-r-full" style={`width:${item.share * 100}%;background:var(${shareColors[item.id]})`}></div>{/if}
             {/each}
@@ -161,6 +176,11 @@
         font-weight: 600;
         color: var(--stor-accent-strong);
     }
+    .stor-rate-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .stor-rate-chip { min-height: 30px; padding-inline: 10px; border-radius: 999px; background: var(--stor-surface-raised); box-shadow: var(--stor-elevation-2); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--stor-ink); }
+    .stor-rate-chip[aria-pressed="true"] { background: var(--stor-accent-soft); box-shadow: inset 0 0 0 1.5px var(--stor-action); color: var(--stor-accent-text); }
+    .stor-rate-chip:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--stor-focus); }
+    @media (pointer: coarse) { .stor-rate-chip { min-height: 44px; } }
     .stor-income-hint:hover { background: var(--stor-accent-soft); }
     .stor-income-hint:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--stor-focus); }
     @media (pointer: coarse) { .stor-income-hint { min-height: 44px; } }

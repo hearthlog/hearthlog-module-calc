@@ -52,6 +52,16 @@
         : null);
     const difference = $derived(!error && startDate && endDate && mode === "difference" ? dateDifference(startDate, endDate, includeEnd) : null);
 
+    /** The closest working days either side of a result that lands on a weekend or holiday. */
+    function nearestWorkingDay(from: Date, direction: 1 | -1): Date {
+        const day = new Date(from);
+        do day.setDate(day.getDate() + direction);
+        while (isWeekend(day) || czechHolidayName(day));
+        return day;
+    }
+    const nearby = $derived(shifted && (isWeekend(shifted) || czechHolidayName(shifted))
+        ? [nearestWorkingDay(shifted, -1), nearestWorkingDay(shifted, 1)]
+        : null);
     const note = $derived(shifted
         ? czechHolidayName(shifted) ?? (isWeekend(shifted) ? "Weekend" : null)
         : null);
@@ -99,6 +109,9 @@
         {:else}
             <Metric label="Resulting date" size="lg" detail={shifted ? format(shifted, "EEEE") : ""}>{shifted ? format(shifted, "d MMM yyyy") : "—"}</Metric>
             {#if note}<Badge variant="warning" class="mt-3">{note}</Badge>{/if}
+            {#if nearby}
+                <p class="mt-4 text-sm text-[var(--stor-muted-text)]">Nearest working days: <b class="font-semibold text-[var(--stor-ink)]">{format(nearby[0], "EEE d MMM")}</b> before, <b class="font-semibold text-[var(--stor-ink)]">{format(nearby[1], "EEE d MMM")}</b> after.</p>
+            {/if}
         {/if}
     </Panel>
 </div>
