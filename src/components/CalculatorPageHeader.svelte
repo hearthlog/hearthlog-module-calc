@@ -16,6 +16,6 @@
     <RouteTabs label="Calculators" {tabs} />
 {/snippet}
 
-<PageHeader title="Calculator" sidebarTabs tabs={tabs.length ? calculatorTabs : undefined}>
+<PageHeader title="Calculator" sidebarTabs sticky tabs={tabs.length ? calculatorTabs : undefined}>
     {@render children?.()}
 </PageHeader>
