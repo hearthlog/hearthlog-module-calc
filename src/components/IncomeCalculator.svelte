@@ -104,7 +104,7 @@
         {/if}
 
         <details
-            class="stor-income-assumptions group mt-6 border-t border-[var(--stor-border)] pt-4"
+            class="stor-income-assumptions group mt-6 pt-4"
         >
             <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-[var(--stor-ink)]"
@@ -143,7 +143,7 @@
             {/each}
         </div>
 
-        <ul class="mt-4 divide-y divide-[var(--stor-border)]">
+        <ul class="mt-4 ">
             {#each result.shares as item (item.id)}
                 <li class="grid grid-cols-[minmax(0,1fr)_auto_3.5rem] items-center gap-3 py-2.5 text-sm">
                     <span class="flex min-w-0 items-center gap-2 text-[var(--stor-muted-text)]"><span class="h-2.5 w-2.5 shrink-0 rounded-full" style={`background:var(${shareColors[item.id]})`}></span>{item.label}</span>
@@ -153,7 +153,7 @@
             {/each}
         </ul>
 
-        <dl class="mt-5 grid grid-cols-2 gap-4 border-t border-[var(--stor-border)] pt-5 sm:grid-cols-3">
+        <dl class="mt-5 grid grid-cols-2 gap-4 pt-5 sm:grid-cols-3">
             {#each [["Revenue", money(result.monthlyRevenue * scale)], ["Deductions", money(result.deductions * scale)], ["Effective rate", percent(result.effectiveRate)]] as [label, value] (label)}
                 <div class="stor-metric">
                     <dt class="stor-metric-label">{label}</dt>
